@@ -2,6 +2,8 @@ package edu.icet.crm.service.impl;
 
 
 import edu.icet.crm.entity.CustomerEntity;
+import edu.icet.crm.model.Bill;
+import edu.icet.crm.model.BillItem;
 import edu.icet.crm.model.Customer;
 import edu.icet.crm.repository.CustomerRepository;
 import edu.icet.crm.repository.repo.CustomersRepository;
@@ -12,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -62,5 +65,13 @@ public class CustomerServiceImpl implements CustomerService {
         log.info(password);
         return  customersRepository.logingCheck(email,password);
 
+    }
+
+
+
+    @Override
+    public HashMap<String, Object> makeBill(Bill bill, List<BillItem> billItems) {
+
+       return customersRepository.makeBill(bill,billItems);
     }
 }
