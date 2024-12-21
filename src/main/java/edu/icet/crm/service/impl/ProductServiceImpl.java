@@ -58,10 +58,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsByCategory(String catagory) {
+    public List<Product> getProductsByCategory(String category) {
 
         List<Product> productList= new ArrayList<>();
-        List<ProductEntity>entityList= productsRepository.getProductsByCategory(catagory);
+        List<ProductEntity>entityList= productsRepository.getProductsByCategory(category);
         entityList.forEach(entity->{
             productList.add(modelMapper.map(entity,Product.class));
         });

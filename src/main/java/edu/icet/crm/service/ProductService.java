@@ -1,9 +1,11 @@
 package edu.icet.crm.service;
 
 import edu.icet.crm.model.Product;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface ProductService {
     Product persist(Product product);
 
@@ -16,5 +18,5 @@ public interface ProductService {
 
     Product searchProduct(Long id);
 
-    List<Product> getProductsByCategory(String catagory);
+    List<Product> getProductsByCategory(String category);
 }
