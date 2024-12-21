@@ -5,7 +5,7 @@ import edu.icet.crm.entity.CustomerEntity;
 import edu.icet.crm.model.Bill;
 import edu.icet.crm.model.BillItem;
 import edu.icet.crm.model.Customer;
-import edu.icet.crm.repository.CustomerRepository;
+import edu.icet.crm.repository.CustomerRepositoryJpa;
 import edu.icet.crm.repository.repo.CustomersRepository;
 import edu.icet.crm.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class CustomerServiceImpl implements CustomerService {
-    private final CustomerRepository customerRepository;
+    private final CustomerRepositoryJpa customerRepository;
     private final ModelMapper modelMapper;
     private final CustomersRepository customersRepository;
     @Override

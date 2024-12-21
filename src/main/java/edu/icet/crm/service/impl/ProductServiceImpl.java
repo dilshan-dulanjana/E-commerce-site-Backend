@@ -2,7 +2,8 @@ package edu.icet.crm.service.impl;
 
 import edu.icet.crm.entity.ProductEntity;
 import edu.icet.crm.model.Product;
-import edu.icet.crm.repository.ProductRepository;
+import edu.icet.crm.repository.ProductRepositoryJPa;
+import edu.icet.crm.repository.repo.ProductsRepository;
 import edu.icet.crm.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -14,12 +15,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-    private final ProductRepository productRepository;
+    private final ProductRepositoryJPa productRepositoryjpa;
     private final ModelMapper modelMapper;
+    private final ProductsRepository productsRepository;
 
     @Override
     public Product persist(Product product) {
-        ProductEntity save = productRepository.save(
+        ProductEntity save = productRepositoryjpa.save(
                 modelMapper.map(product, ProductEntity.class));
         return modelMapper.map(
                 save, Product.class);
@@ -29,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getAllProducts() {
         List<Product>productList = new ArrayList<>();
-        productRepository.findAll().forEach(entity->{
+        productRepositoryjpa.findAll().forEach(entity->{
             productList.add(modelMapper.map(entity, Product.class));
         });
         return productList;
@@ -37,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product updateProduct(Product product) {
-        ProductEntity save = productRepository.save(
+           ProductEntity save = productRepositoryjpa.save(
                 modelMapper.map(product, ProductEntity.class));
         return modelMapper.map(
                 save, Product.class);
@@ -45,13 +47,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        productRepositoryjpa.deleteById(id);
 
     }
 
     @Override
     public Product searchProduct(Long id) {
         return modelMapper.map(
-                productRepository.findById(id), Product.class);
+                productRepositoryjpa.findById(id), Product.class);
+    }
+
+    @Override
+    public List<Product> getProductsByCategory() {
+
+        List<Product> productList= new ArrayList<>();
+        List<ProductEntity>entityList= productsRepository.getProductsByCategory();
+        entityList.forEach(entity->{
+            productList.add(modelMapper.map(entity,Product.class));
+        });
+
+        return productList;
     }
 }
