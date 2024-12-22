@@ -54,36 +54,45 @@ public class CustomerRepositoryImpl implements CustomersRepository {
             // Retrieve the generated Bill_Id
             Long billId = keyHolder.getKey().longValue();
 
-            // Step 2: Insert BillItems
+            // Step 2: Insert BillItems and Update Product Quantity
             String sqlBillItem = "INSERT INTO BillItem (Bill_Id, product_ID, Qty, Total_Amount) VALUES (?, ?, ?, ?)";
+            String updateProductQty = "UPDATE product SET qty = qty - ? WHERE id = ?";
+            String updateRedCount = "UPDATE product SET red_count = true WHERE id = ? AND qty < 10";
+
             for (BillItem billItem : billItems) {
+                // Insert BillItem
                 jdbcTemplate.update(sqlBillItem, billId, billItem.getProduct_ID(), billItem.getQty(), billItem.getTotal_Amount());
+
+                // Update Product Quantity
+                jdbcTemplate.update(updateProductQty, billItem.getQty(), billItem.getProduct_ID());
+
+                // Check and Update `red_count` if qty < 10
+                jdbcTemplate.update(updateRedCount, billItem.getProduct_ID());
             }
 
             // Step 3: Retrieve and Map Bill Details
             String getBill = """
-                SELECT 
-                        b.Bill_Id,
-                        b.customer_ID,
-                        c.name,
-                        p.id,
-                        p.product_name,
-                        p.barcode,
-                        bi.Qty,
-                        bi.Total_Amount,
-                        b.Bill_Total
-                    FROM
-                        Bill b
-                    JOIN
-                        BillItem bi ON b.Bill_Id = bi.Bill_Id
-                    JOIN
-                        customer c ON b.customer_ID = c.id
-                    JOIN
-                        product p ON bi.product_ID = p.id
-                    WHERE
+            SELECT 
+                    b.Bill_Id,
+                    b.customer_ID,
+                    c.name as customer_name,
+                    p.id as product_id,
+                    p.product_name,
+                    p.barcode,
+                    bi.Qty,
+                    bi.Total_Amount,
+                    b.Bill_Total
+                FROM
+                    Bill b
+                JOIN
+                    BillItem bi ON b.Bill_Id = bi.Bill_Id
+                JOIN
+                    customer c ON b.customer_ID = c.id
+                JOIN
+                    product p ON bi.product_ID = p.id
+                WHERE
                     b.Bill_Id = ?
-                """;
-
+        """;
 
             List<Map<String, Object>> billDetails = jdbcTemplate.queryForList(getBill, billId);
 
@@ -98,5 +107,9 @@ public class CustomerRepositoryImpl implements CustomersRepository {
 
         return result;
     }
+
+
+
+
 
 }

@@ -6,6 +6,7 @@ import edu.icet.crm.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -47,7 +48,23 @@ public class ProductController {
 
     @GetMapping("/getProductsByCategory/{catagory}")
     public List<Product> getProductsByCategory( @PathVariable String catagory){
-        return productService.getProductsByCategory(catagory);
+        System.out.println(catagory);
+
+        List<Product> productsByCategory = productService.getProductsByCategory(catagory);
+        System.out.println(productsByCategory);
+        return productsByCategory;
     }
+
+    @GetMapping("/getProductCount")
+    public Integer getProductCount(){
+        return productService.getProductCount();
+
+    }
+
+    @GetMapping("/getRedCount")
+   public HashMap<String, Object> updateRedCountAndRetrieve(){
+        return productService.updateRedCountAndRetrieve();
+    }
+
 
 }
