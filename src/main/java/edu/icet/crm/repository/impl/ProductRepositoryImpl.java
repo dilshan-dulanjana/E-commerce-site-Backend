@@ -49,7 +49,7 @@ public class ProductRepositoryImpl implements ProductsRepository {
 
             // Step 2: Retrieve products with red_count = true
             String getRedCountProducts = """
-            SELECT id, product_name, qty
+            SELECT id, product_name,image_url, qty
             FROM product
             WHERE red_count = true
         """;

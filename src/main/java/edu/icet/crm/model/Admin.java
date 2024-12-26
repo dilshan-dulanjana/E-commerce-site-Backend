@@ -18,4 +18,5 @@ public class Admin {
     private String password;
     private String address;
     private String category;
+    private String image_url;
 }

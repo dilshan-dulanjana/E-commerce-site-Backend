@@ -3,6 +3,7 @@ package edu.icet.crm.service.impl;
 import edu.icet.crm.entity.AdminEntity;
 import edu.icet.crm.model.Admin;
 import edu.icet.crm.repository.AdminRepositoryJpa;
+import edu.icet.crm.repository.repo.AdminRepository;
 import edu.icet.crm.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,6 +17,7 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService  {
      private final AdminRepositoryJpa adminRepositoryJpa;
      private final ModelMapper mapper;
+     private final AdminRepository adminRepository;
     @Override
     public Admin persist(Admin admin) {
         return mapper.map(adminRepositoryJpa.save(
@@ -41,5 +43,15 @@ public class AdminServiceImpl implements AdminService  {
     @Override
     public Admin updateAdmin(Admin admin) {
        return mapper.map(adminRepositoryJpa.save(mapper.map(admin,AdminEntity.class)),Admin.class) ;
+    }
+
+    @Override
+    public Admin getAdminByID(Long id) {
+       return mapper.map(adminRepositoryJpa.findById(id),Admin.class);
+    }
+
+    @Override
+    public boolean logingCheck(String email, String password) {
+        return adminRepository.logingCheck(email,password);
     }
 }

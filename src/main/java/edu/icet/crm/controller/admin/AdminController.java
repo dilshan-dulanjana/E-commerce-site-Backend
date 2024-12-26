@@ -33,7 +33,18 @@ public class AdminController {
     }
     @PutMapping("update-admin")
     public Admin updateAdmin(@RequestBody Admin admin){
-       return service.updateAdmin(admin);
+        return service.updateAdmin(admin);
+    }
+    @GetMapping("admin-byid/{id}")
+    public Admin getAdminByID(@PathVariable Long id){
+
+        return service.getAdminByID(id);
+    }
+
+    @GetMapping("/admin-logingcheck")
+    public boolean logingCheck(@PathVariable String email, @PathVariable String password){
+        return service.logingCheck(email,password);
+
     }
 
 }

@@ -22,4 +22,5 @@ public class AdminEntity {
     private String password;
     private String address;
     private String category="admin";
+    private String image_url;
 }

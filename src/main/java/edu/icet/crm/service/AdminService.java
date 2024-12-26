@@ -12,4 +12,9 @@ public interface AdminService {
     void deleteAdmin(Long id);
 
     Admin updateAdmin(Admin admin);
+
+
+    Admin getAdminByID(Long id);
+
+    boolean logingCheck(String email, String password);
 }
